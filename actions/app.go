@@ -43,6 +43,7 @@ func App() *buffalo.App {
 
 		g := app.Group("/api/v1")
 		g.POST("/search", Search)
+		g.GET("/assets", Assets)
 	}
 
 	return app
