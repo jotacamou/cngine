@@ -113,7 +113,7 @@ metadata:
 ---
 apiVersion: v1
 data:
-  key: eW91ci1rZXk=
+  key: S0VZLUhFUkU=
 kind: Secret
 metadata:
   name: instana-agent-secret
