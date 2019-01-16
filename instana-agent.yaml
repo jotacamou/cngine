@@ -144,33 +144,23 @@ spec:
             secretKeyRef:
               key: key
               name: instana-agent-secret
+        - name: JAVA_OPTS
+          value: -Xmx170M -XX:+ExitOnOutOfMemoryError
         image: instana/agent:latest
         imagePullPolicy: IfNotPresent
         livenessProbe:
-          exec:
-            command:
-            - echo
-            - noop
-          failureThreshold: 5
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          timeoutSeconds: 5
+          httpGet:
+            path: /status
+            port: 42699
+          initialDelaySeconds: 75
+          periodSeconds: 5
         name: instana-agent
-        readinessProbe:
-          exec:
-            command:
-            - echo
-            - noop
-          failureThreshold: 5
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          timeoutSeconds: 5
         resources:
           limits:
-            cpu: "1.5"
+            cpu: 1.5
             memory: 512Mi
           requests:
-            cpu: "0.5"
+            cpu: 0.5
             memory: 512Mi
         securityContext:
           privileged: true
@@ -193,22 +183,12 @@ spec:
         - --http=0.0.0.0:42655
         image: gcr.io/google-containers/leader-elector:0.5
         livenessProbe:
-          failureThreshold: 5
           httpGet:
-            path: /
-            port: 42655
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 10
+            path: /status
+            port: 42699
+          initialDelaySeconds: 75
+          periodSeconds: 5
         name: instana-agent-leader-elector
-        readinessProbe:
-          failureThreshold: 5
-          httpGet:
-            path: /
-            port: 42655
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 10
         resources:
           requests:
             cpu: 0.1
