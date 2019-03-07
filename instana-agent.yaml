@@ -156,6 +156,10 @@ spec:
               name: instana-agent-secret
         - name: JAVA_OPTS
           value: -Xmx170M -XX:+ExitOnOutOfMemoryError
+        - name: INSTANA_AGENT_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         image: instana/agent:latest
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -191,6 +195,12 @@ spec:
       - args:
         - --election=instana
         - --http=0.0.0.0:42655
+        - --id=$(INSTANA_AGENT_POD_NAME)
+        env:
+        - name: INSTANA_AGENT_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         image: gcr.io/google-containers/leader-elector:0.5
         livenessProbe:
           httpGet:
