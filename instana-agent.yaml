@@ -169,6 +169,8 @@ spec:
           initialDelaySeconds: 75
           periodSeconds: 5
         name: instana-agent
+        ports:
+        - containerPort: 42699
         resources:
           limits:
             cpu: 1.5
@@ -209,6 +211,8 @@ spec:
           initialDelaySeconds: 75
           periodSeconds: 5
         name: instana-agent-leader-elector
+        ports:
+        - containerPort: 42655
         resources:
           requests:
             cpu: 0.1
